@@ -8,12 +8,12 @@ public class Bartholomew {
         System.out.println("What may I do for you, master?");
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100]; // Array of Task objects
-        int taskCount = 0; // Track the number of tasks
+        Task[] tasks = new Task[100];
+        int taskCount = 0;
 
         while (true) {
             String input = scanner.nextLine().trim();
-            String[] parts = input.split(" ", 2); // Split input into command + argument
+            String[] parts = input.split(" ", 2);
             String command = parts[0];
 
             if (command.equalsIgnoreCase("bye")) {
@@ -25,7 +25,7 @@ public class Bartholomew {
                 System.out.println("____________________________________________________________");
                 System.out.println(" Here are the tasks in your list, master:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + "." + tasks[i]); // Calls Task's toString()
+                    System.out.println((i + 1) + "." + tasks[i]);
                 }
                 System.out.println("____________________________________________________________");
             }
@@ -37,7 +37,7 @@ public class Bartholomew {
                 }
 
                 try {
-                    int index = Integer.parseInt(parts[1]) - 1; // Convert to zero-based index
+                    int index = Integer.parseInt(parts[1]) - 1;
 
                     if (index < 0 || index >= taskCount) {
                         System.out.println("That is an invalid task number, master.");
