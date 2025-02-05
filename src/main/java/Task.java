@@ -4,23 +4,23 @@ public class Task {
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false; // Default: Not done
+        this.isDone = false;
     }
 
     public String getStatusIcon() {
-        return (isDone ? "X" : " "); // [X] for done, [ ] for not done
+        return (isDone ? "[X]" : "[ ]");
     }
 
     public void markAsDone() {
-        isDone = true;
+        this.isDone = true;
     }
 
-    public void markAsNotDone() {
-        isDone = false;
+    public void unmarkAsDone() {
+        this.isDone = false;
     }
 
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return getStatusIcon() + " " + description;
     }
 }
