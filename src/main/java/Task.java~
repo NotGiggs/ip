@@ -20,14 +20,5 @@ public abstract class Task {
         isDone = false;
     }
 
-    public String getStatusIcon() {
-        return isDone ? "[X]" : "[ ]";
-    }
-
-    @Override
-    public String toString() {
-        return getStatusIcon() + " " + description;
-    }
-
     public abstract String toFileFormat();
 }
