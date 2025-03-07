@@ -1,11 +1,20 @@
 import java.util.Scanner;
 
+/**
+ * The main class for Bartholomew, the refined task assistant.
+ * It initializes components and orchestrates the program's flow.
+ */
 public class Bartholomew {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
 
+    /**
+     * Constructs a new Bartholomew instance.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Bartholomew(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -19,6 +28,9 @@ public class Bartholomew {
         }
     }
 
+    /**
+     * Runs the main loop for handling user commands.
+     */
     public void run() {
         ui.showWelcomeMessage();
         Scanner scanner = new Scanner(System.in);
@@ -34,6 +46,11 @@ public class Bartholomew {
         scanner.close();
     }
 
+    /**
+     * The program entry point.
+     *
+     * @param args Command-line arguments (unused).
+     */
     public static void main(String[] args) {
         new Bartholomew("./data/Bartholomew.txt").run();
     }

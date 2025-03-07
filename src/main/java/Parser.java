@@ -1,6 +1,8 @@
+/**
+ * Parses user input and delegates commands to the appropriate components.
+ */
 public class Parser {
-    private static final String EXIT_COMMAND = "bye";
-    private static final String LIST_COMMAND = "list";
+    private static final String FIND_COMMAND = "find";
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
@@ -8,25 +10,56 @@ public class Parser {
     private static final String UNMARK_COMMAND = "unmark";
     private static final String DELETE_COMMAND = "delete";
 
+    /**
+     * Checks if the input command is an exit command.
+     *
+     * @param input The user input command.
+     * @return True if the command is "bye", otherwise false.
+     */
     public boolean isExitCommand(String input) {
-        return input.equalsIgnoreCase(EXIT_COMMAND);
+        return input.equalsIgnoreCase("bye");
     }
 
+    /**
+     * Processes and executes the given user command.
+     *
+     * @param input  The user command.
+     * @param tasks  The task list to modify.
+     * @param ui     The UI handler to display messages.
+     * @param storage The storage handler to save tasks.
+     */
     public void handleCommand(String input, TaskList tasks, Ui ui, Storage storage) {
-        if (input.equalsIgnoreCase(LIST_COMMAND)) {
+        if (input.equalsIgnoreCase("list")) {
             ui.showTaskList(tasks);
         } else if (input.startsWith(TODO_COMMAND)) {
-            tasks.addTodoTask(input, ui, storage);
+            tasks.addTask(new Todo(input.replaceFirst(TODO_COMMAND, "").trim()), ui, storage);
         } else if (input.startsWith(DEADLINE_COMMAND)) {
-            tasks.addDeadlineTask(input, ui, storage);
+            String[] parts = input.split(" /by ", 2);
+            if (parts.length < 2) {
+                ui.showError("Invalid deadline format. Use: deadline <task> /by <date/time>");
+                return;
+            }
+            tasks.addTask(new Deadline(parts[0].replaceFirst(DEADLINE_COMMAND, "").trim(), parts[1].trim()), ui, storage);
         } else if (input.startsWith(EVENT_COMMAND)) {
-            tasks.addEventTask(input, ui, storage);
+            String[] parts = input.split(" /from ", 2);
+            if (parts.length < 2) {
+                ui.showError("Invalid event format. Use: event <task> /from <start> /to <end>");
+                return;
+            }
+            String[] timeParts = parts[1].split(" /to ", 2);
+            if (timeParts.length < 2) {
+                ui.showError("Invalid event format. Use: event <task> /from <start> /to <end>");
+                return;
+            }
+            tasks.addTask(new Event(parts[0].replaceFirst(EVENT_COMMAND, "").trim(), timeParts[0].trim(), timeParts[1].trim()), ui, storage);
         } else if (input.startsWith(MARK_COMMAND)) {
             tasks.markTask(input, ui, storage);
         } else if (input.startsWith(UNMARK_COMMAND)) {
             tasks.unmarkTask(input, ui, storage);
         } else if (input.startsWith(DELETE_COMMAND)) {
             tasks.deleteTask(input, ui, storage);
+        } else if (input.startsWith(FIND_COMMAND)) {
+            tasks.findTask(input, ui);
         } else {
             ui.showInvalidCommand();
         }

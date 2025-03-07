@@ -1,6 +1,3 @@
-/**
- * Handles all user interactions, displaying messages and errors in a refined manner.
- */
 public class Ui {
     public void showWelcomeMessage() {
         System.out.println("Ah, what a splendid day! I am Bartholomew, at your esteemed service.");
@@ -27,17 +24,6 @@ public class Ui {
         System.out.println("A total of " + tasks.size() + " tasks reside in your list.");
     }
 
-    public void showMatchingTasks(TaskList tasks) {
-        if (tasks.size() == 0) {
-            System.out.println("Regrettably, Master, I found no tasks matching your esteemed request.");
-            return;
-        }
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
-    }
-
     public void showTaskAdded(Task task) {
         System.out.println("Splendid choice, Master! I have dutifully added the following task to your registry:\n  " + task);
     }
@@ -56,7 +42,7 @@ public class Ui {
     }
 
     public void showInvalidCommand() {
-        System.out.println("Ah, it seems that was not a recognised command. Might I suggest: list, todo, deadline, event, mark, unmark, delete, or find?");
+        System.out.println("Ah, it seems that was not a recognised command. Might I suggest: list, todo, deadline, event, mark, unmark, delete?");
     }
 
     public void showError(String message) {

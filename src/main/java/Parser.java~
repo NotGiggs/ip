@@ -1,4 +1,32 @@
-package PACKAGE_NAME;
-
+/**
+ * Parses user input and delegates commands to the appropriate components.
+ */
 public class Parser {
+    private static final String FIND_COMMAND = "find";
+
+    public boolean isExitCommand(String input) {
+        return input.equalsIgnoreCase("bye");
+    }
+
+    public void handleCommand(String input, TaskList tasks, Ui ui, Storage storage) {
+        if (input.equalsIgnoreCase("list")) {
+            ui.showTaskList(tasks);
+        } else if (input.startsWith("todo")) {
+            tasks.addTodoTask(input, ui, storage);
+        } else if (input.startsWith("deadline")) {
+            tasks.addDeadlineTask(input, ui, storage);
+        } else if (input.startsWith("event")) {
+            tasks.addEventTask(input, ui, storage);
+        } else if (input.startsWith("mark")) {
+            tasks.markTask(input, ui, storage);
+        } else if (input.startsWith("unmark")) {
+            tasks.unmarkTask(input, ui, storage);
+        } else if (input.startsWith("delete")) {
+            tasks.deleteTask(input, ui, storage);
+        } else if (input.startsWith(FIND_COMMAND)) {
+            tasks.findTask(input, ui);
+        } else {
+            ui.showInvalidCommand();
+        }
+    }
 }
