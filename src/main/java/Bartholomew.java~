@@ -16,11 +16,7 @@ public class Bartholomew {
         System.out.println("What may I do for you?");
 
         Scanner scanner = new Scanner(System.in);
-<<<<<<< HEAD
-        ArrayList<Task> tasks = new ArrayList<>();
-=======
         ArrayList<Task> tasks = Storage.loadTasks();  // Load tasks from file
->>>>>>> branch-Level-7
 
         while (true) {
             String input = scanner.nextLine().trim();
@@ -160,72 +156,4 @@ public class Bartholomew {
         }
         return argument;
     }
-<<<<<<< HEAD
-
-    private static void printTaskList(ArrayList<Task> tasks) {
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
-        System.out.println("You have " + tasks.size() + " tasks in your list!");
-    }
-
-    private static void addTodoTask(ArrayList<Task> tasks, String description) {
-        Task task = new Todo(description);
-        tasks.add(task);
-        System.out.println("Certainly. I have added the task:\n  " + task);
-    }
-
-    private static void addDeadlineTask(ArrayList<Task> tasks, String input) throws MissingDescriptorException {
-        String[] parts = input.split(" /by ", 2);
-        if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            throw new MissingDescriptorException();
-        }
-        Task task = new Deadline(parts[0].trim(), parts[1].trim());
-        tasks.add(task);
-        System.out.println("Certainly. I have added this task:\n  " + task);
-    }
-
-    private static void addEventTask(ArrayList<Task> tasks, String input) throws MissingDescriptorException {
-        String[] parts = input.split(" /from | /to ", 3);
-        if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
-            throw new MissingDescriptorException();
-        }
-        Task task = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-        tasks.add(task);
-        System.out.println("Certainly. I have added this task:\n  " + task);
-    }
-
-    private static void markTask(ArrayList<Task> tasks, String input) throws MissingDescriptorException {
-        int index = parseTaskIndex(input, tasks.size());
-        tasks.get(index).markAsDone();
-        System.out.println("Brilliant! I have marked this task as done:\n  " + tasks.get(index));
-    }
-
-    private static void unmarkTask(ArrayList<Task> tasks, String input) throws MissingDescriptorException {
-        int index = parseTaskIndex(input, tasks.size());
-        tasks.get(index).unmarkAsDone();
-        System.out.println("Alright! I have marked this task as not done yet:\n  " + tasks.get(index));
-    }
-
-    private static void deleteTask(ArrayList<Task> tasks, String input) throws MissingDescriptorException {
-        int index = parseTaskIndex(input, tasks.size());
-        Task removedTask = tasks.remove(index);
-        System.out.println("Noted. I've removed this task:\n  " + removedTask);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-    }
-
-    private static int parseTaskIndex(String input, int taskCount) throws MissingDescriptorException {
-        try {
-            int index = Integer.parseInt(input) - 1;
-            if (index < 0 || index >= taskCount) {
-                throw new MissingDescriptorException();
-            }
-            return index;
-        } catch (NumberFormatException e) {
-            throw new MissingDescriptorException();
-        }
-    }
-=======
->>>>>>> branch-Level-7
 }

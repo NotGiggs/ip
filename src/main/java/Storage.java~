@@ -67,7 +67,8 @@ public class Storage {
             return new Deadline(description, parts[3], isDone);
         case "E":
             if (parts.length < 4) throw new Exception("Invalid Event format");
-            return new Event(description, parts[3], isDone);
+            return new Event(parts[0].trim(), parts[3].trim(), parts[4].trim(), isDone);
+
         default:
             throw new Exception("Unknown task type");
         }
