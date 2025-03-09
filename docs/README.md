@@ -3,7 +3,7 @@
 ![img.png](img.png)
 
 Bartholomew is your **refined and sophisticated task assistant**, designed to help you manage tasks efficiently while maintaining an air of elegance.  
-With Bartholomew, you can add, list, find, and manage tasks seamlessly. Whether it's a simple todo, an event, or a deadline, Bartholomew is at your service!
+With Bartholomew, you can add events, deadlines, and To-Do tasks to your list. You can also mark and unmark tasks as done, as well as find and list tasks seamlessly. Whether it's a simple todo, an event, or a deadline, Bartholomew is at your service!
 
 ## Adding deadlines
 
@@ -104,4 +104,4 @@ Farewell, Master. I wish you a most delightful rest of your day.
 
 `----------------------------------------------------------------------------------------------------`
 
-Bartholomew is the Task Assistant for you!
+With Bartholomew, task management is no longer a daunting task! Let Bartholomew be the Task Assistant for you!
