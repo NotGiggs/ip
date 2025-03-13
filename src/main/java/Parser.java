@@ -29,39 +29,45 @@ public class Parser {
      * @param storage The storage handler to save tasks.
      */
     public void handleCommand(String input, TaskList tasks, Ui ui, Storage storage) {
-        if (input.equalsIgnoreCase("list")) {
-            ui.showTaskList(tasks);
-        } else if (input.startsWith(TODO_COMMAND)) {
-            tasks.addTask(new Todo(input.replaceFirst(TODO_COMMAND, "").trim()), ui, storage);
-        } else if (input.startsWith(DEADLINE_COMMAND)) {
-            String[] parts = input.split(" /by ", 2);
-            if (parts.length < 2) {
-                ui.showError("Invalid deadline format. Use: deadline <task> /by <date/time>");
-                return;
+        try {
+            if (input.equalsIgnoreCase("list")) {
+                ui.showTaskList(tasks);
+            } else if (input.startsWith(TODO_COMMAND)) {
+                String taskDescription = input.replaceFirst(TODO_COMMAND, "").trim();
+                if (taskDescription.isEmpty()) {
+                    throw new MissingDescriptorException();
+                }
+                tasks.addTask(new Todo(taskDescription), ui, storage);
+            } else if (input.startsWith(DEADLINE_COMMAND)) {
+                String[] parts = input.split(" /by ", 2);
+                if (parts.length < 2 || parts[0].replaceFirst(DEADLINE_COMMAND, "").trim().isEmpty()) {
+                    throw new MissingDescriptorException();
+                }
+                tasks.addTask(new Deadline(parts[0].replaceFirst(DEADLINE_COMMAND, "").trim(), parts[1].trim()), ui, storage);
+            } else if (input.startsWith(EVENT_COMMAND)) {
+                String[] parts = input.split(" /from ", 2);
+                if (parts.length < 2) {
+                    throw new MissingDescriptorException();
+                }
+                String[] timeParts = parts[1].split(" /to ", 2);
+                if (timeParts.length < 2 || parts[0].replaceFirst(EVENT_COMMAND, "").trim().isEmpty()) {
+                    throw new MissingDescriptorException();
+                }
+                tasks.addTask(new Event(parts[0].replaceFirst(EVENT_COMMAND, "").trim(), timeParts[0].trim(), timeParts[1].trim()), ui, storage);
+            } else if (input.startsWith(MARK_COMMAND)) {
+                tasks.markTask(input, ui, storage);
+            } else if (input.startsWith(UNMARK_COMMAND)) {
+                tasks.unmarkTask(input, ui, storage);
+            } else if (input.startsWith(DELETE_COMMAND)) {
+                tasks.deleteTask(input, ui, storage);
+            } else if (input.startsWith(FIND_COMMAND)) {
+                tasks.findTask(input, ui);
+            } else {
+                ui.showInvalidCommand();
             }
-            tasks.addTask(new Deadline(parts[0].replaceFirst(DEADLINE_COMMAND, "").trim(), parts[1].trim()), ui, storage);
-        } else if (input.startsWith(EVENT_COMMAND)) {
-            String[] parts = input.split(" /from ", 2);
-            if (parts.length < 2) {
-                ui.showError("Invalid event format. Use: event <task> /from <start> /to <end>");
-                return;
-            }
-            String[] timeParts = parts[1].split(" /to ", 2);
-            if (timeParts.length < 2) {
-                ui.showError("Invalid event format. Use: event <task> /from <start> /to <end>");
-                return;
-            }
-            tasks.addTask(new Event(parts[0].replaceFirst(EVENT_COMMAND, "").trim(), timeParts[0].trim(), timeParts[1].trim()), ui, storage);
-        } else if (input.startsWith(MARK_COMMAND)) {
-            tasks.markTask(input, ui, storage);
-        } else if (input.startsWith(UNMARK_COMMAND)) {
-            tasks.unmarkTask(input, ui, storage);
-        } else if (input.startsWith(DELETE_COMMAND)) {
-            tasks.deleteTask(input, ui, storage);
-        } else if (input.startsWith(FIND_COMMAND)) {
-            tasks.findTask(input, ui);
-        } else {
-            ui.showInvalidCommand();
+        } catch (MissingDescriptorException e) {
+            ui.showError("Oops! A descriptor is missing. Please provide a valid task description.");
         }
     }
+
 }

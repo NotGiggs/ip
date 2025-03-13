@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class TaskList {
     private ArrayList<Task> tasks;
 
-    // Constant for index offset (to adjust user input from 1-based to 0-based indexing)
+    // Move the constant inside the class
     private static final int INDEX_OFFSET = 1;
 
     public TaskList() {
@@ -72,48 +72,6 @@ public class TaskList {
         Task removedTask = tasks.remove(index);
         ui.showTaskRemoved(removedTask, tasks.size());
         storage.saveTasks(tasks);
-    }
-
-    /**
-     * Searches for tasks containing a keyword in the description, deadline, or event timing.
-     *
-     * @param input The user's command containing the keyword.
-     * @param ui    The user interface for displaying results.
-     */
-    public void findTask(String input, Ui ui) {
-        String keyword = input.replaceFirst("find", "").trim();
-        if (keyword.isEmpty()) {
-            ui.showError("Might I trouble you to provide a search keyword?");
-            return;
-        }
-
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            // Check if keyword is in description
-            if (task.description.contains(keyword)) {
-                matchingTasks.add(task);
-            }
-            // Check deadlines
-            else if (task instanceof Deadline && ((Deadline) task).getBy().contains(keyword)) {
-                matchingTasks.add(task);
-            }
-            // Check event timings
-            else if (task instanceof Event) {
-                Event event = (Event) task;
-                if (event.getFrom().contains(keyword) || event.getTo().contains(keyword)) {
-                    matchingTasks.add(task);
-                }
-            }
-        }
-
-        if (matchingTasks.isEmpty()) {
-            ui.showError("Regrettably, Master, I found no tasks matching your esteemed request.");
-        } else {
-            System.out.println("Here are the matching tasks in your list:");
-            for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println((i + 1) + ". " + matchingTasks.get(i));
-            }
-        }
     }
 
     /**

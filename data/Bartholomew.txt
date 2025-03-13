@@ -1,2 +1,0 @@
-E | 0 | team meeting | 1pm | 3pm
-D | 0 | study | 12am

@@ -5,7 +5,11 @@ public class Storage {
     private final String filePath;
     private static final String DIRECTORY_PATH = "./data/";
 
-    public Storage(String filePath) {  // Add this constructor
+    private static final int MIN_TODO_PARTS = 3;
+    private static final int MIN_DEADLINE_PARTS = 4;
+    private static final int MIN_EVENT_PARTS = 5;
+
+    public Storage(String filePath) {
         this.filePath = filePath;
     }
 
@@ -50,7 +54,7 @@ public class Storage {
 
     private Task parseTask(String line) throws Exception {
         String[] parts = line.split(" \\| ");
-        if (parts.length < 3) {
+        if (parts.length < MIN_TODO_PARTS) {
             throw new Exception("Invalid task format");
         }
 
@@ -62,10 +66,10 @@ public class Storage {
         case "T":
             return new Todo(description, isDone);
         case "D":
-            if (parts.length < 4) throw new Exception("Invalid Deadline format");
+            if (parts.length < MIN_DEADLINE_PARTS) throw new Exception("Invalid Deadline format");
             return new Deadline(description, parts[3], isDone);
         case "E":
-            if (parts.length < 5) throw new Exception("Invalid Event format");
+            if (parts.length < MIN_EVENT_PARTS) throw new Exception("Invalid Event format");
             return new Event(description, parts[3], parts[4], isDone);
         default:
             throw new Exception("Unknown task type");
